@@ -1,6 +1,8 @@
 FROM ubuntu:20.04
 MAINTAINER Elico Corp <webmaster@elico-corp.com>
 
+ARG TARGETARCH
+
 # Define build constants
 ENV GIT_BRANCH=17.0 \
   PYTHON_BIN=python3 \
@@ -60,7 +62,7 @@ ADD sources/pip.txt /opt/sources/pip.txt
 RUN pip3 install -r /opt/sources/pip.txt
 
 # Install wkhtmltopdf based on QT5
-# ADD https://github.com/wkhtmltopdf/wkhtmltopdf/releases/download/0.12.5/wkhtmltox_0.12.5-1.focal_amd64.deb \
+# ADD https://github.com/wkhtmltopdf/wkhtmltopdf/releases/download/0.12.5/wkhtmltox_0.12.5-1.focal_${TARGETARCH}.deb \
 #  /opt/sources/wkhtmltox.deb
 # RUN apt update \
 #  && apt install -yq xfonts-base xfonts-75dpi \
@@ -103,7 +105,7 @@ RUN from=$( awk '/^## Usage/{ print NR; exit }' /usr/share/man/man.txt ) && \
   tee /usr/share/man/help.txt > /dev/null
 
 # Use dumb-init as init system to launch the boot script
-ADD https://github.com/Yelp/dumb-init/releases/download/v1.2.0/dumb-init_1.2.0_amd64.deb /opt/sources/dumb-init.deb
+ADD https://github.com/Yelp/dumb-init/releases/download/v1.2.0/dumb-init_1.2.0_${TARGETARCH}.deb /opt/sources/dumb-init.deb
 RUN dpkg -i /opt/sources/dumb-init.deb
 ADD bin/boot /usr/bin/boot
 ENTRYPOINT [ "/usr/bin/dumb-init", "/usr/bin/boot" ]
