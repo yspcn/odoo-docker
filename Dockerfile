@@ -7,7 +7,7 @@ ENV GIT_BRANCH=17.0 \
   SERVICE_BIN=odoo-bin
 
 # Set timezone to UTC
-RUN ln -sf /usr/share/zoneinfo/Etc/UTC /etc/localtime
+RUN ln -sf /usr/share/zoneinfo/Asia/Shanghai /etc/localtime
 
 # Generate locales
 RUN apt update \
