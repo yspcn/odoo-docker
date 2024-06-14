@@ -109,5 +109,9 @@ ADD bin/boot /usr/bin/boot
 ENTRYPOINT [ "/usr/bin/dumb-init", "/usr/bin/boot" ]
 CMD [ "help" ]
 
+# Google links CN mirror
+RUN sed -i "s/fonts\.googleapis\.com/fonts.lug.ustc.edu.cn/g" \
+  `grep 'fonts\.googleapis\.com' -rl /opt/odoo/sources/odoo/addons`
+  
 # Expose the odoo ports (for linked containers)
 EXPOSE 8069 8072
